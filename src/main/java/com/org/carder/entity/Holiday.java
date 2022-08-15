@@ -1,5 +1,7 @@
 package com.org.carder.entity;
 
+import com.org.carder.constant.CommonStatus;
+import com.org.carder.utill.LocalDateAttributeConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,10 +18,10 @@ public class Holiday {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column
     private String reason;
-
-    @Column
-    private LocalDate holiDay;
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate holiday;
+    @Enumerated
+    private CommonStatus commonStatus;
 }

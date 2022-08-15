@@ -1,32 +1,31 @@
 package com.org.carder.entity;
 
+import com.org.carder.constant.CommonStatus;
+import com.org.carder.utill.LocalDateAttributeConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "leave")
+@Table(name = "empLeave")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Leave {
+public class Leave implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column
-    private String reason;
-
-    @Column
-    private LocalDate fromDate;
-
-    @Column
-    private LocalDate toDate;
-
     @ManyToOne
     @JoinColumn(name = "leaveUser",referencedColumnName = "empNumber")
-    private User empNumber;
+    private User leaveUser;
+    @Column
+    private String reason;
+    @Enumerated
+    private CommonStatus commonStatus;
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate leaveDate;
 }

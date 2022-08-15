@@ -32,40 +32,27 @@
               </a>
               <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link"  th:href="@{/comReplay}">Carder Management</a></li>
-                  <li class="nav-item"> <a class="nav-link"  th:href="@{/complain}">Report Generation</a></li>
+                  <li class="nav-item"> <a class="nav-link"  th:href="@{/leave}">Leave Management</a></li>
+                  <li class="nav-item"> <a class="nav-link"  th:href="@{/holiday}">Holiday Management</a></li>
+                  <li class="nav-item"> <a class="nav-link"  th:href="@{/attendanceRepo}">Attendance & Report </a></li>
+
                 </ul>
               </div>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <a class="nav-link" th:href="@{/uReg}">
                 <span class="menu-title">Employee</span>
-                <i class="menu-arrow"></i>
-                <i class="mdi mdi-contacts menu-icon"></i>
+                <i class="mdi mdi-account-multiple-plus menu-icon"></i>
               </a>
-              <div class="collapse" id="ui-basic">
-                <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link"  th:href="@{/uReg}">Add Employee</a></li>
-                  <li class="nav-item"> <a class="nav-link" th:href="@{/userView}">View Employee</a></li>
-                </ul>
-              </div>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" data-toggle="collapse" href="#general-pages" aria-expanded="false"  aria-controls="general-pages">
+              <a class="nav-link" th:href="@{/dReg}">
                 <span class="menu-title">Department</span>
-                <i class="menu-arrow"></i>
-                <i class="mdi mdi-medical-bag menu-icon"></i>
+                <i class="mdi mdi-package menu-icon"></i>
               </a>
-              <div class="collapse" id="general-pages">
-                <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link"  th:href="@{/dReg}">Add Department</a></li>
-                  <li class="nav-item"> <a class="nav-link" th:href="@{/depView}">View Department</a></li>
-                </ul>
-              </div>
             </li>
-
           </ul>
         </nav>
 

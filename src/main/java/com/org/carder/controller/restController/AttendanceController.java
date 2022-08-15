@@ -1,11 +1,11 @@
 package com.org.carder.controller.restController;
 
 
-import com.org.carder.DTOs.AttendanceDTO;
+
 import com.org.carder.service.AttendanceService;
 import com.org.carder.utill.CommonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +20,10 @@ public class AttendanceController {
         this.attendanceService = attendanceService;
     }
 
-    @PostMapping("/")
-    public CommonResponse markAttendance(AttendanceDTO attendanceDTO){
-        return attendanceService.markAttendance(attendanceDTO);
+    @GetMapping("/")
+    public CommonResponse getAttendance(){
+        return attendanceService.getAttendance();
     }
+
+
 }

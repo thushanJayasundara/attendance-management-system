@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/index}">
-<body>
+<body onload="loadTodayLeaveTable()">
 <div  layout:fragment="content" class="main-panel">
 
         <div class="content-wrapper">
@@ -26,10 +26,10 @@
                     <div class="card bg-gradient-danger card-img-holder text-white">
                         <div class="card-body">
                             <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                            <h4 class="font-weight-normal mb-3">All users in system <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                            <h4 class="font-weight-normal mb-3">Today Absent<i class="mdi mdi-diamond mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5" > <span th:text="${userCount}"></span></h2>
-
+                            <h2 class="mb-5" > <span th:text="${attendance}"></span></h2>
+                            <input type="hidden" id="attendance" th:value="${attendance}">
                         </div>
                     </div>
                 </div>
@@ -37,9 +37,10 @@
                     <div class="card bg-gradient-info card-img-holder text-white">
                         <div class="card-body">
                             <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                            <h4 class="font-weight-normal mb-3">All Complain <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                            <h4 class="font-weight-normal mb-3">Vacate Count<i class="mdi mdi-diamond mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5" > <span th:text="${complainCount}"></span></h2>
+                            <h2 class="mb-5" > <span th:text="${vacateCount}"></span></h2>
+                            <input type="hidden" id="vacateCount" th:value="${vacateCount}">
                         </div>
                     </div>
                 </div>
@@ -47,15 +48,46 @@
                     <div class="card bg-gradient-success card-img-holder text-white">
                         <div class="card-body">
                             <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                            <h4 class="font-weight-normal mb-3">All department <i class="mdi mdi-diamond mdi-24px float-right"></i>
+                            <h4 class="font-weight-normal mb-3">All Employee <i class="mdi mdi-diamond mdi-24px float-right"></i>
                             </h4>
-                            <h2 class="mb-5" > <span th:text="${departmentCount}"></span></h2>
+                            <h2 class="mb-5" > <span th:text="${userCount}"></span></h2>
+                            <input type="hidden" id="userCount" th:value="${userCount}">
                         </div>
                     </div>
                 </div>
             </div>
 
-
+            <div class="row">
+                <div class="col-lg-6 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Employee chart</h4>
+                            <canvas id="doughnutChart" style="height:250px"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Today Leaves</h4>
+                            <br>
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped dataTable" id="todayLeaveTable">
+                                    <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Reason</th>
+                                        <th>Leave date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
@@ -63,8 +95,8 @@
         <!-- partial:partials/_footer.html -->
         <footer class="footer">
             <div class="container-fluid clearfix">
-                <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © Lahiru Sandaruwan</span>
-                <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> KGT Complain Management System </span>  </div>
+                <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © HMAS Herath</span>
+                <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Carder Management System </span>  </div>
         </footer>
         <!-- partial -->
     </div>

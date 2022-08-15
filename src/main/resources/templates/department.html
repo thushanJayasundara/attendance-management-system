@@ -3,8 +3,8 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/index}">
-<body>
-<div  layout:fragment="content" class="main-panel">
+<body onload="clearDepartment(),loadDepartmentTable()">
+<div layout:fragment="content" class="main-panel">
     <div class="content-wrapper">
         <div class="page-header">
             <h3 class="page-title"> Add Department </h3>
@@ -15,19 +15,19 @@
             </nav>
         </div>
         <div class="row">
-            <div class="col-12 grid-margin stretch-card">
+            <div class="col-6 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">KGT</h4>
                         <p class="card-description"> Enter department details </p>
                         <blockquote class="blockquote blockquote-primary">
                             <div class="search-field d-none d-md-block">
                                 <form class="d-flex align-items-center h-100" action="#">
                                     <div class="input-group">
-                                        <div class="input-group-prepend bg-transparent">
-                                            <i class="input-group-text border-0 mdi mdi-magnify"></i>
-                                        </div>
-                                        <input type="text" class="form-control bg-transparent border-0" onchange="searchDepartment(value)" placeholder="Search department (Department title)">
+                                        <input type="text" id="search_Dep" class="form-control bg-transparent border-0"
+                                               placeholder="Search department (Department title)">
+                                        <button type="button" onclick="searchDepartment()" class="btn btn-gradient-primary btn-rounded btn-icon">
+                                            <i class="mdi mdi-magnify"></i>
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -36,11 +36,11 @@
                         <br>
                         <form class="forms-sample">
                             <div class="form-group">
-                                <label >Department title</label>
-                                <input type="text" class="form-control" id="depTit" required="true" placeholder="1234">
+                                <label>Department title</label>
+                                <input type="text" class="form-control" id="depTit" required="true" placeholder="ACC">
                             </div>
                             <div class="form-group">
-                                <label >Department description</label>
+                                <label>Department description</label>
                                 <textarea class="form-control" id="depDes" rows="4"></textarea>
                             </div>
                             <div class="form-group">
@@ -48,7 +48,7 @@
                                 <input type="text" class="form-control" id="depCon" placeholder="0111302006">
                             </div>
                             <div class="form-group">
-                                <label >Select status</label>
+                                <label>Select status</label>
                                 <select class="form-control" id="statusDep">
                                     <option value="0">Your status</option>
                                     <option value="ACTIVE">ACTIVE</option>
@@ -56,10 +56,36 @@
                                     <option value="DELETED">DELETED</option>
                                 </select>
                             </div>
-                            <input type="hidden" class="form-control" id="idDep" >
-                            <button type="button" onclick="saveDepartment();" class="btn btn-gradient-primary mr-2">Save department / Edit Department</button>
-                            <button type = "button" class="btn btn-gradient-dark btn-fw"> Cancel </button>
+                            <input type="hidden" class="form-control" id="idDep">
+                            <button type="button" onclick="saveDepartment();"
+                                    class="btn btn-gradient-success btn-rounded btn-fw">Save/Edit Department
+                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" onclick="clearDepartment();"
+                                    class="btn btn-gradient-danger btn-rounded btn-fw"> Clear
+                            </button>
                         </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Department List</h4>
+                        <br>
+                        </p>
+                        <div class="table-responsive">
+                        <table class="table table-bordered table-striped dataTable" id="departmentTable">
+                            <thead>
+                            <tr>
+                                <th> Title</th>
+                                <th> Description</th>
+                                <th> Contact Number</th>
+                                <th> Status</th>
+                            </tr>
+                            </thead>
+
+                        </table>
+                        </div>
                     </div>
                 </div>
             </div>

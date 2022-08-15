@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -69,10 +70,8 @@ public  class UserService {
             user = getUserEntity(user,dto);
             user = userRepository.save(user);
             commonResponse.setStatus(true);
-            commonResponse.setPayload(new ArrayList<>(Arrays.asList(getUserDTO(user))));
-        }catch (Exception e){
-            logger.warn("/******** Exception in UserService -> saveUpdate() :" + e);
-            commonResponse.getErrorMessages().add(e.getMessage());
+            commonResponse.setPayload(Collections.singletonList(getUserDTO(user)));
+        }catch (Exception e){ logger.warn("/******** Exception in UserService -> saveUpdate() :" + e);
         }
         return commonResponse;
     }
@@ -88,12 +87,9 @@ public  class UserService {
         try {
             user=this.getUserByEmpNum(Long.parseLong(empNumber));
             commonResponse.setStatus(true);
-            commonResponse.setPayload(new ArrayList<>(Arrays.asList(getUserDTO(user))));
+            commonResponse.setPayload(Collections.singletonList(getUserDTO(user)));
         }
-       catch (Exception e){
-            logger.warn("/******** Exception in UserService -> findByEmpNum() :" + e);
-           commonResponse.getErrorMessages().add(e.getMessage());
-        }
+       catch (Exception e){logger.warn("/******** Exception in UserService -> findByEmpNum() :" + e); }
         return commonResponse;
     }
 
@@ -110,10 +106,7 @@ public  class UserService {
             user.setCommonStatus(CommonStatus.DELETED);
             userRepository.save(user);
             commonResponse.setStatus(true);
-        }catch (Exception e){
-            logger.warn("/******** Exception in UserService -> deleteUserByEmpNum() :" + e);
-            commonResponse.getErrorMessages().add(e.getMessage());
-        }
+        }catch (Exception e){ logger.warn("/******** Exception in UserService -> deleteUserByEmpNum() :" + e); }
         return commonResponse;
     }
 
@@ -128,14 +121,11 @@ public  class UserService {
             List<UserDTO> userDTOS = userRepository.findAll()
                                                         .stream()
                                                           .filter(filterOnStatus)
-                                                             .map(user -> getUserDTO(user))
+                                                             .map(this::getUserDTO)
                                                                 .collect(Collectors.toList());
             commonResponse.setStatus(true);
-            commonResponse.setPayload(new ArrayList<Object>(userDTOS));
-        }catch (Exception e){
-            logger.warn("/******** Exception in UserService -> findAll() :" + e);
-            commonResponse.getErrorMessages().add(e.getMessage());
-        }
+            commonResponse.setPayload(Collections.singletonList(userDTOS));
+        }catch (Exception e){ logger.warn("/******** Exception in UserService -> findAll() :" + e); }
         return commonResponse;
     }
 
@@ -149,20 +139,27 @@ public  class UserService {
             List<UserDTO> userDTOS = userRepository.findAll()
                     .stream()
                     .filter(filterOnStatus)
-                    .map(user -> getUserDTO(user))
+                    .map(this::getUserDTO)
                     .collect(Collectors.toList());
           return userDTOS;
-        }catch (Exception e){
-            logger.warn("/******** Exception in UserService -> findAll() :" + e);
-           e.printStackTrace();
-        }
+        }catch (Exception e){ logger.warn("/******** Exception in UserService -> findAll() :" + e); }
         return null;
+    }
+
+    /**
+     * get all user list
+     * @return
+     */
+    @Transactional
+    public List<User> getAllUserList(){
+        return userRepository.findAll();
     }
 
     /**
      * get all user count
      * @return
      */
+    @Transactional
     public long getUserCount(){
          return userRepository.count();
     }
@@ -172,6 +169,7 @@ public  class UserService {
      * @param userId
      * @return
      */
+    @Transactional
     public User getUser(Long userId){
         return userRepository.getOne(userId);
     }
@@ -181,6 +179,7 @@ public  class UserService {
      * @param eNumber
      * @return
      */
+    @Transactional
     public User getUserByEmpNum(Long eNumber){
         return userRepository.findByEmpNumber(eNumber);
     }
@@ -190,6 +189,7 @@ public  class UserService {
      * @param eNumber
      * @return
      */
+    @Transactional
     public Boolean existByEmpNumber(Long eNumber){
         return userRepository.existsByEmpNumber(eNumber);
     }
@@ -200,6 +200,7 @@ public  class UserService {
      * @param eNumber
      * @return
      */
+    @Transactional
     public UserDTO getUserDTOByEmpNum(Long eNumber){
        User user =  userRepository.findByEmpNumber(eNumber);
         return getUserDTO(user);
@@ -211,6 +212,7 @@ public  class UserService {
      * @param dto
      * @return
      */
+    @Transactional
     public User getUserEntity(User user,UserDTO dto){
         user.setEmpNumber(Long.parseLong(dto.getEmpNumber()));
         user.setName(dto.getName());
@@ -231,6 +233,7 @@ public  class UserService {
      * @param user
      * @return
      */
+    @Transactional
     public UserDTO getUserDTO(User user){
         return new UserDTO(String.valueOf(user.getId()),
                             String.valueOf(user.getEmpNumber()),
@@ -269,11 +272,12 @@ public  class UserService {
             validations.add(CommonMsg.ENTER_YOUR_NIC);
         }else if(CommonValidation.validNic(dto.getNic())) {
             validations.add(CommonMsg.INVALID_NIC);
+        }else if(dto.getId().equals("") && userRepository.existsByNic(dto.getNic())) {
+                validations.add(CommonMsg.NIC_NUMBER_EXIST);
         }else if (CommonValidation.isNumber(dto.getEmpNumber())) {
             validations.add(CommonMsg.ENTER_EMPLOYEE_NUMBER);
-        }else if ((dto.getId().equals("") && dto.getId()== null)  && (user.getNic().equals(dto.getNic()))){
-                validations.add(CommonMsg.NIC_NUMBER_EXIST);
-
+        }else if (dto.getCommonStatus() == null){
+            validations.add(CommonMsg.ENTER_STATUS);
         }
         return validations;
     }

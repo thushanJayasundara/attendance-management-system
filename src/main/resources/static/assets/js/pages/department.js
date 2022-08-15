@@ -19,6 +19,7 @@ function  saveDepartment(){
             if(!data.status) {
                 toastr.error(data.errorMessages);
             } else {
+                loadDepartmentTable();
                 toastr.success("Successfully saved.");
 
             }
@@ -26,7 +27,8 @@ function  saveDepartment(){
     });
 }
 
-function searchDepartment(departmentTitle) {
+function searchDepartment() {
+    var departmentTitle = $('#search_Dep').val()
     var url = "/department/find-by-title/"+departmentTitle
     $.ajax({
         url: url,
@@ -44,4 +46,102 @@ function searchDepartment(departmentTitle) {
             }
         }
     });
+}
+
+function loadDepartmentTable() {
+    $.ajax({
+        url: "/department/get-all",
+        type: "GET",
+        data: {},
+        success: function(data) {
+            if(!data.status) {
+                toastr.error(data.errorMessages);
+            } else {
+                setDepartmentTable(data.payload[0])
+            }
+        }
+    });
+}
+
+function setDepartmentTable(posts) {
+    console.log(posts)
+    if ($.isEmptyObject(posts)) {
+        $('#departmentTable').DataTable().clear();
+        $('#departmentTable').DataTable({
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "destroy": true,
+            "language": {
+                "emptyTable": "No Data Found !!!",
+                search: "",
+                searchPlaceholder: "Search..."
+            }
+        });
+    } else {
+        $("#departmentTable").DataTable({
+            dom: 'Bfrtip',
+            lengthMenu: [
+                [ 10, 25, 50, 100],
+                [ '10', '25', '50', '100']
+            ],
+            buttons: [{
+                extend: 'pageLength'
+            },
+                {
+                    extend: 'pdf',
+                    title: 'Department Details',
+                    pageSize: 'A4'
+                },
+                {
+                    extend: 'excel',
+                    title: 'Department Details',
+                    pageSize: 'A4'
+                },
+                {
+                    extend: 'print',
+                    title: 'Department Details',
+                    pageSize: 'A4'
+                }
+            ],
+            "destroy": true,
+            "language": {
+                search: "",
+                searchPlaceholder: "Search..."
+            },
+            "data": posts,
+                "columns": [{
+                    "data": "departmentTitle"
+                },
+                {
+                    "data": "departmentDescription"
+                },
+                {
+                    "data": "departmentContactNumber"
+                },
+                {
+                    "data": "commonStatus",
+                    mRender: function(data) {
+                        var classLb = ''
+                        if(data == "ACTIVE")
+                            classLb = 'badge badge-success'
+                        if(data == "INACTIVE")
+                            classLb = 'badge badge-info'
+                        else
+                            classLb = 'badge badge-success'
+                        var columnHtml = '<td><label class="'+classLb+'">'+data+'</label></td>';
+                        return (columnHtml);
+                    }
+                }]
+        });
+    }
+}
+
+function  clearDepartment(){
+    $('#depTit').val('');
+    $('#idDep').val('');
+    $('#depDes').val('');
+    $('#depCon').val('');
+    $('#statusDep').val('');
 }

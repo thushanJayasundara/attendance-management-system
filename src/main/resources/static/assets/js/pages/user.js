@@ -1,3 +1,4 @@
+
 function  saveUser(){
     var userObj={
         "id":$('#idEmp').val() == "" ? "" : $('#idEmp').val(),
@@ -5,7 +6,7 @@ function  saveUser(){
         "name":$('#name').val(),
         "nic":$('#nic').val(),
         "mobile":$('#mobile').val(),
-        "password":$('#password').val(),
+        "password":"101010",
         "userRole":$('#role').val(),
         "commonStatus":$('#status').val(),
         "departmentDTO": {
@@ -31,6 +32,7 @@ function  saveUser(){
             if(!data.status) {
                 toastr.error(data.errorMessages);
             } else {
+                loadUserTable();
                 toastr.success("Successfully saved.");
 
             }
@@ -38,7 +40,8 @@ function  saveUser(){
     });
 }
 
-function searchUser(userId) {
+function searchUser() {
+    var userId = $('#search_user').val()
     var url = "/user/find-by-emp-num/"+userId
     $.ajax({
         url: url,
@@ -61,10 +64,139 @@ function searchUser(userId) {
     });
 }
 
-function setFieldData (user) {
+function loadUserTable() {
+    $.ajax({
+        url: "/user/get-all",
+        type: "GET",
+        data: {},
+        success: function(data) {
+            if(!data.status) {
+                toastr.error(data.errorMessages);
+            } else {
+                setUserTable(data.payload[0]);
+            }
+        }
+    });
+}
 
 
+function setUserTable(posts) {
+    console.log(posts)
+    if ($.isEmptyObject(posts)) {
+        $('#userTable').DataTable().clear();
+        $('#userTable').DataTable({
+            "bPaginate": false,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "destroy": true,
+            "language": {
+                "emptyTable": "No Data Found !!!",
+                search: "",
+                searchPlaceholder: "Search..."
+            }
+        });
+    } else {
+        $("#userTable").DataTable({
+            dom: 'Bfrtip',
+            lengthMenu: [
+                [ 10, 25, 50, 100],
+                [ '10', '25', '50', '100']
+            ],
+            buttons: [{
+                extend: 'pageLength'
+            },
+                {
+                    extend: 'pdf',
+                    title: 'Employee Details',
+                    pageSize: 'A4'
+                },
+                {
+                    extend: 'excel',
+                    title: 'Employee Details',
+                    pageSize: 'A4'
+                },
+                {
+                    extend: 'print',
+                    title: 'Employee Details',
+                    pageSize: 'A4'
+                }
+            ],
+            "destroy": true,
+            "language": {
+                search: "",
+                searchPlaceholder: "Search..."
+            },
+            "data": posts,
+                "columns": [{
+                    "data": "empNumber"
+                },
+                {
+                    "data": "name"
+                },
+                {
+                    "data": "nic"
+                },
+                {
+                     "data": "mobile"
+                 },
+                {
+                    "data": "userRole"
+                },
+                {
+                     "data": "departmentDTO.departmentTitle"
+                 },
+                {
+                    "data": "commonStatus",
+                    mRender: function(data) {
+                        var classLb = ''
+                        if(data == "ACTIVE")
+                            classLb = 'badge badge-success'
+                        if(data == "INACTIVE")
+                            classLb = 'badge badge-info'
+                        else
+                            classLb = 'badge badge-success'
+                        var columnHtml = '<td><label class="'+classLb+'">'+data+'</label></td>';
+                        return (columnHtml);
+                    }
+                }]
+        });
+    }
+}
 
+/*function setUserTable(userList) {
+    $('#userTable').html('');
+    $.each(userList, function(key, users) {
+        $.each(users, function(key, user) {
+            var classLb = ''
+            if(user.commonStatus == "ACTIVE")
+                classLb = 'badge badge-success'
+            if(user.commonStatus == "INACTIVE")
+                classLb = 'badge badge-info'
+            $('#userTable').append(
+                '<tr>'+
+                '<td>'+user.empNumber+'</td>'+
+                '<td>'+user.name+'</td>'+
+                '<td>'+user.nic+'</td>'+
+                '<td>'+user.mobile+'</td>'+
+                '<td><label class="'+classLb+'">'+user.commonStatus+'</label></td>'+
+                '<td>'+user.userRole+'</td>'+
+                '<td>'+user.departmentDTO.departmentTitle+'</td>'+
+                '</tr>'
+            );
+        });
+    });
+}*/
+
+function ClearUserField() {
+    $('#empNumber').val('');
+    $('#idEmp').val('');
+    $('#name').val('');
+    $('#nic').val('');
+    $('#mobile').val('');
+    $('#role').val('');
+    $('#status').val('');
+    $('#dep').val('');
 }
 
 

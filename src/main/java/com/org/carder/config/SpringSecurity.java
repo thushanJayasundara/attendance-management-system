@@ -30,7 +30,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                         "**/reg",
                         "/assets/**",
                         "/gulp-tasks",
-                        "/save-update").permitAll()
+                        "/webjars/**").permitAll();
+        http.authorizeRequests()
+                .antMatchers("/leave","/dash","/holiday","/attendanceRepo","/uReg","/dReg").access("hasRole('ROLE_ADMIN')")
                 .and()
                 .formLogin().loginPage("/login").successHandler(authenticationSuccessHandler).permitAll()
                 .and()

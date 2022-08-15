@@ -12,6 +12,7 @@ public class CommonMsg {
     public static final String ENTER_PASSWORD="Please enter password.";
     public static final String ENTER_MOBILE_NUMBER="Please enter valid mobile number.";
     public static final String ENTER_ROLE="Please enter user role.";
+    public static final String ENTER_STATUS="Please enter status.";
     public static final String CHECK_INPUT_DATA = "Input data is not available.";
     public static final String EMP_NUMBER_EXIST = "EMP Number is already exist for another account.";
     public static final String NIC_NUMBER_EXIST = "NIC Number is already exist for another account.";
@@ -34,11 +35,21 @@ public class CommonMsg {
     public static final String COMPLAIN_REPLY = "Please enter complain reply";
 
     /*****************************************************************************************************************
-     *============================================Complain Message==================================================
+     *============================================Attendance Message==================================================
      *****************************************************************************************************************/
 
-    public static final String NOT_FOUND_IN_SYSTEM = "Please register, Not Found in the system";
+    public static final String FILE_ALREADY_EXIST = "File already saved";
+    public static final String UPLOAD_TODAY_ATTENDANCE_FILE = "Please upload today attendance file";
 
+
+    /*****************************************************************************************************************
+     *============================================Holiday Message==================================================
+     *****************************************************************************************************************/
+
+    public static final String ENTER_DATE="Please enter date.";
+    public static final String ENTER_REASON="Please enter holiday reason.";
+    public static final String ENTER_REASON_LEAVE="Please enter leave reason.";
+    public static final String ENTER_VALID_DATE="Please enter valid date.";
 }
 
 

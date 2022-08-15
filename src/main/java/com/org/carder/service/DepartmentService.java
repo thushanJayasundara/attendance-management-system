@@ -11,10 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -38,6 +40,7 @@ public class DepartmentService {
      * @param dto
      * @return
      */
+    @Transactional
     public CommonResponse saveUpdate(DepartmentDTO dto){
         CommonResponse commonResponse = new CommonResponse();
         Department department;
@@ -61,10 +64,8 @@ public class DepartmentService {
             department = getDepartmentEntity(department,dto);
             department=departmentRepository.save(department);
             commonResponse.setStatus(true);
-            commonResponse.setPayload(new ArrayList<>(Arrays.asList(getDepartmentDTO(department))));
-        }catch (Exception e){
-            logger.warn("/******** Exception in DepartmentService -> saveUpdate() :" + e);
-            commonResponse.getErrorMessages().add(e.getMessage());
+            commonResponse.setPayload(new ArrayList<>(Collections.singletonList(getDepartmentDTO(department))));
+        }catch (Exception e){logger.warn("/******** Exception in DepartmentService -> saveUpdate() :" + e);
         }
         return commonResponse;
     }
@@ -74,16 +75,16 @@ public class DepartmentService {
      * @param departmentTitle
      * @return
      */
+    @Transactional
     public CommonResponse findDepartmentByTitle(String departmentTitle){
         CommonResponse commonResponse = new CommonResponse();
         Department department;
         try {
             department = this.getDepartmentByTitle(departmentTitle);
             commonResponse.setStatus(true);
-            commonResponse.setPayload(new ArrayList<>(Arrays.asList(getDepartmentDTO(department))));
+            commonResponse.setPayload(new ArrayList<>(Collections.singletonList(getDepartmentDTO(department))));
         }catch (Exception e){
             logger.warn("/******** Exception in DepartmentService -> findDepartmentByTitle() :" + e);
-            commonResponse.getErrorMessages().add(e.getMessage());
         }
         return commonResponse;
     }
@@ -93,6 +94,7 @@ public class DepartmentService {
      * @param departmentTitle
      * @return
      */
+    @Transactional
     public CommonResponse deleteDepartmentByTitle(String departmentTitle){
         CommonResponse commonResponse = new CommonResponse();
         Department department;
@@ -103,7 +105,6 @@ public class DepartmentService {
             commonResponse.setStatus(true);
         }catch (Exception e){
             logger.warn("/******** Exception in DepartmentService -> deleteDepartmentByTitle() :" + e);
-            commonResponse.getErrorMessages().add(e.getMessage());
         }
         return commonResponse;
     }
@@ -112,6 +113,7 @@ public class DepartmentService {
      * find all
      * @return
      */
+    @Transactional
     public CommonResponse findAll(){
         CommonResponse commonResponse = new CommonResponse();
         Department department;
@@ -121,14 +123,11 @@ public class DepartmentService {
             List<DepartmentDTO> departmentDTOS = departmentRepository.findAll()
                                                                         .stream()
                                                                             .filter(filterOnStatus)
-                                                                                .map(dep -> getDepartmentDTO(dep) )
+                                                                                .map(this::getDepartmentDTO)
                                                                                     .collect(Collectors.toList());
             commonResponse.setPayload(new ArrayList<>(Arrays.asList(departmentDTOS)));
             commonResponse.setStatus(true);
-        }catch (Exception e){
-            logger.warn("/******** Exception in DepartmentService -> findAll() :" + e);
-            commonResponse.getErrorMessages().add(e.getMessage());
-        }
+        }catch (Exception e){logger.warn("/******** Exception in DepartmentService -> findAll() :" + e);}
         return commonResponse;
     }
 
@@ -136,6 +135,7 @@ public class DepartmentService {
      *
      * @return
      */
+    @Transactional
     public List<DepartmentDTO> getAll(){
         try {
             Predicate<Department> filterOnStatus = dep -> dep.getCommonStatus() != CommonStatus.DELETED;
@@ -143,11 +143,10 @@ public class DepartmentService {
             List<DepartmentDTO> departmentDTOS = departmentRepository.findAll()
                     .stream()
                     .filter(filterOnStatus)
-                    .map(dep -> getDepartmentDTO(dep) )
+                    .map(this::getDepartmentDTO)
                     .collect(Collectors.toList());
             return departmentDTOS;
-        }catch (Exception e){
-            logger.warn("/******** Exception in DepartmentService -> getAll() :" + e);
+        }catch (Exception e){ logger.warn("/******** Exception in DepartmentService -> getAll() :" + e);
         }
        return null;
     }
@@ -160,6 +159,7 @@ public class DepartmentService {
      * @param departmentTitle
      * @return
      */
+    @Transactional
     public Department getDepartmentByTitle(String departmentTitle){
         return departmentRepository.findByDepartmentTitle(departmentTitle);
     }
@@ -169,6 +169,7 @@ public class DepartmentService {
      * @param departmentId
      * @return
      */
+    @Transactional
     public Department getDepartment(Long departmentId){
         return departmentRepository.getOne(departmentId);
     }
@@ -203,6 +204,7 @@ public class DepartmentService {
         return department;
     }
 
+    @Transactional
     public long getDepartmentCount(){
         return departmentRepository.count();
     }
@@ -226,6 +228,8 @@ public class DepartmentService {
             validations.add(CommonMsg.ENTER_DEPARTMENT_CONTACT);
         }else if (CommonValidation.isValidMobile(dto.getDepartmentContactNumber())){
             validations.add(CommonMsg.ENTER_VALID_CONTACT_NUMBER);
+        }else if (dto.getCommonStatus() == null){
+            validations.add(CommonMsg.ENTER_STATUS);
         }
         return validations;
     }

@@ -6,4 +6,6 @@ public enum CommonStatus implements Serializable {
     ACTIVE,
     INACTIVE,
     DELETED,
+    APPROVE,
+    CANCEL
 }

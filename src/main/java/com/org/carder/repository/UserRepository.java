@@ -11,4 +11,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     Boolean existsByEmpNumber(Long eNumber);
 
+    Boolean existsByNic(String nic);
 }

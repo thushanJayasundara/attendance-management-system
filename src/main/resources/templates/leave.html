@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/index}">
+<body onload="  clearLeave(),loadLeaveTable()">
+<div  layout:fragment="content" class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title">Leave Management</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Add Leave</h4>
+                        <br>
+                        <br>
+                        <blockquote class="blockquote blockquote-primary">
+                            <div class="search-field d-none d-md-block">
+                                <form class="form-inline">
+                                    <div class="form-group mx-sm-2">
+                                        <label>&nbsp;&nbsp;&nbsp;From<br>&nbsp;&nbsp;&nbsp;Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <input id="search_leaveDate" type="date" class="form-control" >
+                                    </div>
+                                    <div class="form-group mx-sm-2">
+                                        <label>&nbsp;&nbsp;&nbsp;Emp<br>Number&nbsp;&nbsp;&nbsp;</label>
+                                        <input id="search_empNum" type="text" class="form-control" >
+                                    </div>
+                                    <div class="input-group-prepend bg-transparent">
+                                        <button type="button" onclick="searchLeave()" class="btn btn-gradient-primary btn-rounded btn-icon">
+                                            <i class="mdi mdi-magnify"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </blockquote>
+                        <br>
+                        <br>
+                        <form class="forms-sample">
+                            <div class="form-group">
+                                <label>Employee Number</label>
+                                <input type="number" class="form-control" id="emp_Number" required="true" placeholder="1234">
+                            </div>
+                            <div class="form-group">
+                                <label>Leave Reason</label>
+                                <input type="text" class="form-control" id="reason" required="true" placeholder="SICK">
+                            </div>
+                            <div class="form-group">
+                                <label >Select Status</label>
+                                <select class="form-control" id="status">
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="INACTIVE">INACTIVE</option>
+                                    <option value="DELETED">DELETED</option>
+                                    <option value="APPROVE">APPROVE</option>
+                                    <option value="CANCEL">CANCEL</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>From Date</label>
+                                <input type="date" class="form-control" id="leaveDate" required="true" >
+                            </div>
+                            <input type="hidden" class="form-control" id="idLeave" >
+                            <button type="button" onclick="saveLeave()" class="btn btn-gradient-success btn-rounded btn-fw">Save leave</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type = "button" onclick="clearLeave()" class="btn btn-gradient-danger btn-rounded btn-fw"> Clear </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Leaves</h4>
+                        <br>
+                        </p>
+                        <div class="table-responsive">
+                       <table class="table table-bordered table-striped dataTable" id="leaveTable">
+                            <thead>
+                            <tr>
+                                <th>Employee</th>
+                                <th>Reason</th>
+                                <th>Leave date</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

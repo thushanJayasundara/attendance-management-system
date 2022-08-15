@@ -3,7 +3,7 @@ package com.org.carder.constant;
 public enum UserRole {
     ADMIN("ADMIN"),
     EMPLOYEE("EMPLOYEE"),
-    MANAGER("MANAGER");
+    STAFF("STAFF");
 
     private final String userRole;
 

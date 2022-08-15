@@ -32,7 +32,6 @@ public class User implements Serializable {
     private UserRole userRole;
     @Enumerated
     private CommonStatus commonStatus;
-
     @ManyToOne
     @JoinColumn(name = "department_id",referencedColumnName = "id")
     private Department department;

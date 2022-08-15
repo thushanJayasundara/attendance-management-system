@@ -41,10 +41,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         if (roles.contains("ROLE_ADMIN"))
             response.sendRedirect("/dash");
-         if (roles.contains("ROLE_EMPLOYEE"))
-            response.sendRedirect("/userCom");
-         if (roles.contains("ROLE_MANAGER"))
-             response.sendRedirect("/mComReplay");
 
     }
 }
