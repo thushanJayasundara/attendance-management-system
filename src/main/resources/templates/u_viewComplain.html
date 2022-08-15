@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/u_index}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div  layout:fragment="content" class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> All Complain </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th> </th>
+                                    <th> Complain Id </th>
+                                    <th> Complain Title </th>
+                                    <th> Complain Description </th>
+                                    <th> Complain Status</th>
+                                    <th> Status </th>
+                                    <th> Send Date/Time </th>
+                                    <th> Complained Department</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="obj: ${complains}">
+                                    <tr>
+                                        <td> <button onclick="getComById(value)" th:value="${obj.id}" type="button" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-gradient-danger btn-rounded btn-icon">
+                                           <i class="mdi mdi-email-open"></i>
+                                        </button>
+                                        </td>
+
+                                        <td th:text="${obj.id}"></td>
+                                        <td th:text="${obj.complainTitle}"></td>
+                                        <td th:text="${obj.complainDescription}"> </td>
+                                        <td> <label class="badge badge-gradient-info" th:text="${obj.complainStatus}"></label></td>
+                                        <td> <label class="badge badge-gradient-success" th:text="${obj.commonStatus}"></label></td>
+                                        <td th:text="${obj.createOn}"></td>
+                                        <td th:text="${obj.departmentDTO.departmentTitle}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLongTitle">Complain Replay</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" >
+                        <h5 id="comReplay2"></h5>
+                    </div>
+                    <div class="modal-footer">
+                        <h5 class="modal-title"  id="comReplayUser2"></h5>
+                        <h5>/</h5>
+                        <h5 class="modal-title"  id="comReplayUserId"></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</body>
+</html>

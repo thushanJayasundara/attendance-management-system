@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/index}">
+<body>
+<div  layout:fragment="content" class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Add Department </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">KGT</h4>
+                        <p class="card-description"> Enter department details </p>
+                        <blockquote class="blockquote blockquote-primary">
+                            <div class="search-field d-none d-md-block">
+                                <form class="d-flex align-items-center h-100" action="#">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend bg-transparent">
+                                            <i class="input-group-text border-0 mdi mdi-magnify"></i>
+                                        </div>
+                                        <input type="text" class="form-control bg-transparent border-0" onchange="searchDepartment(value)" placeholder="Search department (Department title)">
+                                    </div>
+                                </form>
+                            </div>
+                        </blockquote>
+                        <br>
+                        <br>
+                        <form class="forms-sample">
+                            <div class="form-group">
+                                <label >Department title</label>
+                                <input type="text" class="form-control" id="depTit" required="true" placeholder="1234">
+                            </div>
+                            <div class="form-group">
+                                <label >Department description</label>
+                                <textarea class="form-control" id="depDes" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label> Department contact number </label>
+                                <input type="text" class="form-control" id="depCon" placeholder="0111302006">
+                            </div>
+                            <div class="form-group">
+                                <label >Select status</label>
+                                <select class="form-control" id="statusDep">
+                                    <option value="0">Your status</option>
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="INACTIVE">INACTIVE</option>
+                                    <option value="DELETED">DELETED</option>
+                                </select>
+                            </div>
+                            <input type="hidden" class="form-control" id="idDep" >
+                            <button type="button" onclick="saveDepartment();" class="btn btn-gradient-primary mr-2">Save department / Edit Department</button>
+                            <button type = "button" class="btn btn-gradient-dark btn-fw"> Cancel </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

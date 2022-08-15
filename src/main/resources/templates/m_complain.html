@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/m_index}" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div  layout:fragment="content" class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> All Complain </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title"></h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th> </th>
+                                    <th> Id </th>
+                                    <th>  Title </th>
+                                    <th>  Description </th>
+                                    <th> Complain Status</th>
+                                    <th> Active Status </th>
+                                    <th>  Department</th>
+                                    <th> Send Date/Time </th>
+                                    <th>  User Emp Number</th>
+                                    <th>  User Department</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="obj: ${complainDTOS}">
+                                    <tr>
+                                        <td> <button type="button" class="btn btn-gradient-danger btn-rounded btn-icon">
+                                            <a th:href="@{/mComReplay/{id}(id = ${obj.id})}"><i class="mdi mdi-email-open"></i></a>
+                                        </button>
+                                        </td>
+                                        <td th:text="${obj.id}"></td>
+                                        <td th:text="${obj.complainTitle}"></td>
+                                        <td th:text="${obj.complainDescription}"></td>
+                                        <td> <label class="badge badge-gradient-info" th:text="${obj.complainStatus}"></label></td>
+                                        <td> <label class="badge badge-gradient-success" th:text="${obj.commonStatus}"></label></td>
+                                        <td th:text="${obj.departmentDTO.departmentTitle}"></td>
+                                        <td th:text="${obj.createOn}"></td>
+                                        <td th:text="${obj.complainUser.empNumber}"></td>
+                                        <td th:text="${obj.complainUser.departmentDTO.departmentTitle}"></td>
+
+
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</body>
+</html>

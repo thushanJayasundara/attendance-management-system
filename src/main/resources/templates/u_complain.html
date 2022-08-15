@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/u_index}">
+<body>
+<div  layout:fragment="content" class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Add User </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">KGT</h4>
+                        <p class="card-description"> Enter complain </p>
+                        <br>
+                        <br>
+                        <form class="forms-sample">
+                            <div class="form-group">
+                                <label >Complain title</label>
+                                <input type="text" class="form-control" id="comTit" required="true" >
+                            </div>
+
+                            <div class="form-group">
+                                <label>Complain description</label>
+                                <textarea class="form-control" id="comDes" rows="4"></textarea>
+                            </div>
+                            <input type="hidden" class="form-control" id="idCom" >
+                            <div class="form-group">
+                                <label >Select Department</label>
+                                <select class="form-control" id="depCom">
+                                    <option value="0">Select department, you want to send complain</option>
+                                    <option th:each="operator : ${departments}" th:value="${operator.departmentTitle}" th:text="${operator.departmentTitle}"></option>
+                                </select>
+                            </div>
+                            <button type="button" onclick="saveComplain()" class="btn btn-gradient-primary mr-2">Submit Complain</button>
+                            <button type = "button" class="btn btn-gradient-dark btn-fw"> Cancel </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

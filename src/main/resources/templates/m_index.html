@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<div th:replace="fragments/head :: head"></div>
+<body >
+<div class="container-scroller">
+  <!-- partial:partials/_navbar.html -->
+  <div th:replace="fragments/hedder_nav :: hedder_nav"> </div>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_sidebar.html -->
+    <div th:replace="fragments/m_navbar :: m_navbar"> </div>
+    <!-- partial -->
+    <div layout:fragment="content" id="content"> </div>
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script th:src=@{/assets/vendors/js/vendor.bundle.base.js}></script>
+<script th:src=@{/assets/vendors/chart.js/Chart.min.js}></script>
+<script th:src=@{/assets/js/toastr/toastr.min.js}></script>
+<script th:src=@{/assets/js/off-canvas.js}></script>
+<script th:src=@{/assets/js/misc.js}></script>
+<script th:src=@{/assets/js/hoverable-collapse.js}></script>
+<script th:src=@{/assets/js/pages/user.js}></script>
+<script th:src=@{/assets/js/pages/department.js}></script>
+<script th:src=@{/assets/js/pages/complain.js}></script>
+<script th:src=@{/assets/js/todolist.js}></script>
+<script th:src=@{/assets/js/dashboard.js}></script>
+<!-- End custom js for this page -->
+</body>
+</html>

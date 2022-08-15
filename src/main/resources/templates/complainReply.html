@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/index}">
+<body>
+<div  layout:fragment="content" class="main-panel">
+    <div class="content-wrapper">
+        <div class="page-header">
+            <h3 class="page-title"> Add User </h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                </ol>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">KGT</h4>
+                        <p class="card-description"> Complain Replay </p>
+                        <br>
+                        <br>
+
+                        <blockquote class="blockquote blockquote-primary">
+                            <div class="search-field d-none d-md-block">
+                                <form class="d-flex align-items-center h-100" >
+                                    <div class="input-group">
+                                        <div class="input-group-prepend bg-transparent">
+                                            <i class="input-group-text border-0 mdi mdi-magnify" ></i>
+                                        </div>
+                                        <input type="text" class="form-control bg-transparent border-0" placeholder="Search user (Employee number)">
+                                    </div>
+                                </form>
+                            </div>
+                        </blockquote>
+
+                        <table class="table table-striped" id="replyComplain">
+                            <thead>
+                            <tr>
+                                <th>Id </th>
+                                <th>Title </th>
+                                <th>Description </th>
+                                <th>Complain Status</th>
+                                <th>Active Status</th>
+                                <th>Department</th>
+                                <th>Create Date/Time</th>
+                                <th>User Emp Number</th>
+                                <th>User Department</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td th:text="${complainDTO?.id}"></td>
+                                <td th:text="${complainDTO?.complainTitle}"></td>
+                                <td th:text="${complainDTO?.complainDescription}"></td>
+                                <td th:text="${complainDTO?.complainStatus}"></td>
+                                <td th:text="${complainDTO?.commonStatus}"></td>
+                                <td th:text="${complainDTO?.departmentDTO?.departmentTitle}"></td>
+                                <td th:text="${complainDTO?.createOn}"></td>
+                                <td th:text="${complainDTO?.complainUser?.empNumber}"></td>
+                                <td th:text="${complainDTO?.complainUser?.departmentDTO?.departmentTitle}"></td>
+                            </tr>
+                            </tbody>
+                        </table>  <input type="hidden" class="form-control" id="comId"  th:value="${complainDTO?.id}">
+                        <br>
+                        <br>
+                        <br>
+                        <form class="forms-sample">
+                            <div class="form-group">
+                                <label>Replay Complain</label>
+                                <textarea class="form-control" id="comReplay" rows="4"></textarea>
+                            </div>
+                            <input type="hidden" class="form-control" id="idCom" >
+                            <div class="form-group">
+                                <label >Select Department</label>
+                                <select class="form-control" id="depComRP">
+                                    <option value="0">Select department, you want to send complain</option>
+                                    <option th:each="operator : ${departments}" th:value="${operator.departmentTitle}" th:text="${operator.departmentTitle}"></option>
+                                </select>
+                            </div>
+                            <button type="button" onclick="replayComplain()" class="btn btn-gradient-primary mr-2">Replay Complain</button>
+                            <button type = "button" class="btn btn-gradient-dark btn-fw"> Cancel </button>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
