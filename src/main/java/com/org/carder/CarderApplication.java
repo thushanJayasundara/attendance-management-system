@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 @OpenAPIDefinition(info = @Info (title = "EMP API",version = "2.0",description = "test"))
 public class CarderApplication {
 
