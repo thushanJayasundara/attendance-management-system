@@ -118,11 +118,12 @@ public  class UserService {
         CommonResponse commonResponse =  new CommonResponse();
         try {
             Predicate<User> filterOnStatus = user -> user.getCommonStatus() != CommonStatus.DELETED;
-            List<UserDTO> userDTOS = userRepository.findAll()
-                                                        .stream()
-                                                          .filter(filterOnStatus)
-                                                             .map(this::getUserDTO)
-                                                                .collect(Collectors.toList());
+            List<UserDTO> userDTOS = userRepository
+                    .findAll()
+                    .stream()
+                    .filter(filterOnStatus)
+                    .map(this::getUserDTO)
+                    .collect(Collectors.toList());
             commonResponse.setStatus(true);
             commonResponse.setPayload(Collections.singletonList(userDTOS));
         }catch (Exception e){ logger.warn("/******** Exception in UserService -> findAll() :" + e); }
@@ -150,7 +151,6 @@ public  class UserService {
      * get all user list
      * @return
      */
-    @Transactional
     public List<User> getAllUserList(){
         return userRepository.findAll();
     }
@@ -159,7 +159,6 @@ public  class UserService {
      * get all user count
      * @return
      */
-    @Transactional
     public long getUserCount(){
          return userRepository.count();
     }
@@ -169,7 +168,6 @@ public  class UserService {
      * @param userId
      * @return
      */
-    @Transactional
     public User getUser(Long userId){
         return userRepository.getOne(userId);
     }
@@ -179,7 +177,6 @@ public  class UserService {
      * @param eNumber
      * @return
      */
-    @Transactional
     public User getUserByEmpNum(Long eNumber){
         return userRepository.findByEmpNumber(eNumber);
     }
@@ -189,7 +186,6 @@ public  class UserService {
      * @param eNumber
      * @return
      */
-    @Transactional
     public Boolean existByEmpNumber(Long eNumber){
         return userRepository.existsByEmpNumber(eNumber);
     }
@@ -200,7 +196,6 @@ public  class UserService {
      * @param eNumber
      * @return
      */
-    @Transactional
     public UserDTO getUserDTOByEmpNum(Long eNumber){
        User user =  userRepository.findByEmpNumber(eNumber);
         return getUserDTO(user);
@@ -212,7 +207,6 @@ public  class UserService {
      * @param dto
      * @return
      */
-    @Transactional
     public User getUserEntity(User user,UserDTO dto){
         user.setEmpNumber(Long.parseLong(dto.getEmpNumber()));
         user.setName(dto.getName());

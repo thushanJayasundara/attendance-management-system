@@ -27,20 +27,25 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-       response.setStatus(HttpServletResponse.SC_OK);
-        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        HttpSession session = request.getSession();
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        try {
+            response.setStatus(HttpServletResponse.SC_OK);
+            Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+            HttpSession session = request.getSession();
 
-        UserDTO userDTO = userService.getUserDTOByEmpNum(Long.valueOf(authentication.getName()));
+            UserDTO userDTO = userService.getUserDTOByEmpNum(Long.valueOf(authentication.getName()));
 
-        session.setAttribute("username", userDTO.getName());
-        session.setAttribute("department", userDTO.getDepartmentDTO().getDepartmentTitle());
-        session.setAttribute("empNumber" , userDTO.getEmpNumber());
+            session.setAttribute("username", userDTO.getName());
+            session.setAttribute("department", userDTO.getDepartmentDTO().getDepartmentTitle());
+            session.setAttribute("empNumber" , userDTO.getEmpNumber());
 
 
-        if (roles.contains("ROLE_ADMIN"))
-            response.sendRedirect("/dash");
+            if (roles.contains("ROLE_ADMIN"))
+                response.sendRedirect("/dash");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
     }
 }

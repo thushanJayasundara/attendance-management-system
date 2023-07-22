@@ -41,8 +41,10 @@ public class DateTimeUtil {
         return conDate;
     }
 
-    public  static LocalDate getSriLankaDate(){
+    public static LocalDate getSriLankaDate(){
         return getFormattedDate(getLocalDate());
     }
+
+
 
 }

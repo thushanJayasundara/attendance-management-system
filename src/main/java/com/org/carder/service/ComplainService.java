@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -78,7 +79,7 @@ public class ComplainService {
             complain.setComplainReply(dto.getComplainReply());
             complain.setComplainStatus(ComplainStatus.REPLAY);
             complain.setRepliedUser(userService.getUserByEmpNum(Long.parseLong(dto.getRepliedUserEmpNum())));
-            complain.setRepliedOn(DateTimeUtil.getSriLankaTime());
+            complain.setRepliedOn(LocalDateTime.now());
             complainRepository.save(complain);
             commonResponse.setStatus(true);
         }catch (Exception e){
@@ -112,12 +113,12 @@ public class ComplainService {
     public List<ComplainDTO> getAllComplain(){
         try {
             Predicate<Complain> filterOnStatus = c -> c.getCommonStatus() != CommonStatus.DELETED;
-            List<ComplainDTO> complainDTOS = complainRepository.findAll()
+            return complainRepository
+                    .findAll()
                     .stream()
                     .filter(filterOnStatus)
-                    .map(complain -> getComplainDTO(complain))
+                    .map(this::getComplainDTO)
                     .collect(Collectors.toList());
-            return complainDTOS;
         }catch (Exception e) {
             logger.warn("/******** Exception in UserService -> findAll() :" + e);
         }
@@ -139,15 +140,15 @@ public class ComplainService {
      * @param List<ComplainDTO>
      * @return
      */
-    public   List<ComplainDTO> getComplainByDepartment(String depTitle){
+    public List<ComplainDTO> getComplainByDepartment(String depTitle){
         try {
             Predicate<Complain> filterOnComplainByDep = c -> c.getDepartment().getDepartmentTitle().equals(depTitle);
-            List<ComplainDTO> complainDTOS = complainRepository.findAll()
-                                                                    .stream()
-                                                                        .filter(filterOnComplainByDep)
-                                                                            .map(c -> getComplainDTO(c))
-                                                                                .collect(Collectors.toList());
-            return complainDTOS;
+            return complainRepository.findAll()
+                                      .stream()
+                                      .filter(filterOnComplainByDep)
+                                      .map(this::getComplainDTO)
+                                      .collect(Collectors.toList());
+
         }catch (Exception e){
             logger.warn("/******** Exception in ComplainService -> getUnreadComplainByDepartment() :" + e);
 
@@ -216,7 +217,7 @@ public class ComplainService {
         complain.setComplainTitle(dto.getComplainTitle());
         complain.setComplainDescription(dto.getComplainDescription());
         complain.setComplainStatus(dto.getComplainStatus());
-        complain.setCreatedOn(DateTimeUtil.getSriLankaTime());
+        complain.setCreatedOn(LocalDateTime.now());
         complain.setComplainUser(userService.getUserByEmpNum(Long.parseLong(dto.getComplainUserEmpNum())));
         complain.setDepartment(departmentService.getDepartmentByTitle(dto.getDepartmentTitle()));
         complain.setCommonStatus(dto.getCommonStatus());
